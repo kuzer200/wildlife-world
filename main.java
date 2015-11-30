@@ -1,12 +1,13 @@
 //Eric Kuz
-//Nov. 9/15
+//Nov. 30/15
 //ENSE 374-093
 
-//This program allows users to simulate a living, breathing world.  Currently, you can spawn entities on a 2D grid.
+//This program allows users to simulate a living, breathing world.
 //The size of the grid is chosen by the user, as is the number of entities that spawn.
 //Currently, foilage spawning is hard-coded.
 
 import java.util.*;
+import wildlifeworld.*;
 
 class Main
 {	
@@ -23,6 +24,23 @@ class Main
 		System.out.println("Animals can eat each other, and will starve if they do not eat anything within three days.");
 		System.out.println("");
 
+		System.out.println("Map legend:");
+		System.out.println("\' \' - Dirt");
+		System.out.println("\':\' - Grass");
+		System.out.println("\'^\' - Tree");
+		System.out.println("\'#\' - Shrub");
+		System.out.println("\'B\' - Bluejay");
+		System.out.println("\'C\' - Caterpillar");
+		System.out.println("\'D\' - Deer");
+		System.out.println("\'F\' - Fox");
+		System.out.println("\'G\' - Grasshopper");
+		System.out.println("\'H\' - Hawk");
+		System.out.println("\'M\' - Mouse");
+		System.out.println("\'R\' - Rabbit");
+		System.out.println("\'S\' - Squirrel");
+		System.out.println("\'W\' - Wolf");
+		System.out.println("");
+
 		System.out.println("How large would you like to make the world in square km?  Integer values are accepted.");
 		System.out.print("Height: ");
 		height = input.nextInt();
@@ -30,9 +48,9 @@ class Main
 		width = input.nextInt();
 
 		World world = new World(height, width);
-
+		
 		while (getAnimalCount(animal_count) > world.getMapSize())
-			System.out.println("Error: Too many animals.  Specify less animals or restart the program and make the world smaller.");
+			System.out.println("Error: Too many animals.  Specify less animals or restart the program and make the world larger.");
 	
 		world.spawnEntities("bluejay", animal_count[0]);
 		world.spawnEntities("caterpillar", animal_count[1]);
@@ -44,9 +62,21 @@ class Main
 		world.spawnEntities("rabbit", animal_count[7]);
 		world.spawnEntities("squirrel", animal_count[8]);
 		world.spawnEntities("wolf", animal_count[9]);
+			input.nextLine();
 
+		while (world.simulate())
+		{
+			world.printInfo();
+			world.printMap();
+			System.out.print("Press enter to continue...");
+			input.nextLine();
+		}
+
+		world.printInfo();
 		world.printMap();
-		world.printEntityInfo(true);
+
+		System.out.println("Everything has died.  Simulation terminated.");
+
 	}
 
 //gets the number of animals to spawn in the world
@@ -58,25 +88,25 @@ class Main
 		int sum = 0;
 
 		System.out.println("How many animals of each kind do you want to spawn?");
-		System.out.print("Bluejay:\t");		
+		System.out.print("Bluejay: ");		
 		animal_count[0] = input.nextInt();
-		System.out.print("Caterpillar:\t");	
+		System.out.print("Caterpillar: ");	
 		animal_count[1] = input.nextInt();
-		System.out.print("Deer:\t");		
+		System.out.print("Deer: ");		
 		animal_count[2] = input.nextInt();
-		System.out.print("Fox:\t");		
+		System.out.print("Fox: ");		
 		animal_count[3] = input.nextInt();
-		System.out.print("Grasshopper:\t");	
+		System.out.print("Grasshopper: ");	
 		animal_count[4] = input.nextInt();
-		System.out.print("Hawk:\t");		
+		System.out.print("Hawk: ");		
 		animal_count[5] = input.nextInt();
-		System.out.print("Mouse:\t");		
+		System.out.print("Mouse: ");		
 		animal_count[6] = input.nextInt();
-		System.out.print("Rabbit:\t");		
+		System.out.print("Rabbit: ");		
 		animal_count[7] = input.nextInt();
-		System.out.print("Squirrel:\t");	
+		System.out.print("Squirrel: ");	
 		animal_count[8] = input.nextInt();
-		System.out.print("Wolf:\t");		
+		System.out.print("Wolf: ");		
 		animal_count[9] = input.nextInt();
 
 		for (int i = 0; i < 10; i++)
